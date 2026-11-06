@@ -101,7 +101,8 @@ data_raw/*.csv
 │   └── Olist_import.sql
 ├── notebooks/                  # Jupyter 分析（连 MySQL 出图）
 │   ├── db.py                   # MySQL 连接 + SQL 执行工具
-│   ├── 01_data_quality.ipynb
+│   ├── 01_data_loading.ipynb   # 数据接入
+│   ├── 02_data_quality.ipynb   # 数据质量
 │   ├── 03_economic_trends.ipynb
 │   ├── 04_commodity_structure.ipynb
 │   ├── 05_logistics_experience.ipynb
@@ -113,7 +114,7 @@ data_raw/*.csv
 └── README.md
 ```
 
-> Notebook 编号与 SQL 一一对应；`02_base_view.sql` 只创建视图，`07` 与 `customers_RFM.sql` 供看板使用。
+> Notebook 从数据接入、质量检查到各分析模块依次编号，与 `analysis_code/` 中的 SQL 分析步骤对应；`02_base_view.sql` 只创建视图，`07_tableau_view.sql` 与 `customers_RFM.sql` 供看板使用。
 
 ---
 

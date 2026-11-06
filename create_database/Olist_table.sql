@@ -74,6 +74,7 @@ CREATE TABLE orders (
     order_delivered_customer_date DATETIME,    -- 送达客户时间
     order_estimated_delivery_date DATETIME,    -- 预计送达时间
     PRIMARY KEY (order_id),
+    INDEX idx_orders_purchase (order_purchase_timestamp),  -- 按时间窗口过滤
     FOREIGN KEY (customer_id) REFERENCES customers (customer_id)
 );
 
@@ -113,6 +114,7 @@ CREATE TABLE order_reviews (
     review_creation_date    DATETIME,     -- 评论创建时间
     review_answer_timestamp DATETIME,     -- 评论回复时间
     PRIMARY KEY (review_id, order_id),
+    INDEX idx_reviews_order (order_id),                    -- 按订单回查评价
     FOREIGN KEY (order_id) REFERENCES orders (order_id)
 );
 

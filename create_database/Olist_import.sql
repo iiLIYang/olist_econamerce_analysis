@@ -16,12 +16,8 @@ SET NAMES utf8mb4;
 
 SEt GLOBAL local_infile = 1;
 
--- 如需重复导入，先清空旧数据（临时关掉外键检查，避免顺序报错）
-SET FOREIGN_KEY_CHECKS = 0;
-SET FOREIGN_KEY_CHECKS = 1;
-
 -- 1. 客户  ← olist_customers_dataset.csv
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_customers_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_customers_dataset.csv'
 INTO TABLE customers
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -29,7 +25,7 @@ IGNORE 1 LINES
 (customer_id, customer_unique_id, customer_zip_code_prefix, customer_city, customer_state);
 
 -- 2. 卖家  ← olist_sellers_dataset.csv
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_sellers_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_sellers_dataset.csv'
 INTO TABLE sellers
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -38,7 +34,7 @@ IGNORE 1 LINES
 
 -- 3. 商品  ← olist_products_dataset.csv
 --    CSV 里空值会读成空字符串，用 NULLIF 把它变成真正的 NULL。
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_products_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_products_dataset.csv'
 INTO TABLE products
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -56,7 +52,7 @@ SET product_id                 = @product_id,
     product_width_cm           = NULLIF(@product_width_cm, '');
 
 -- 4. 商品类目翻译  ← product_category_name_translation.csv
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/product_category_name_translation.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/product_category_name_translation.csv'
 INTO TABLE product_category_name_translation
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -65,7 +61,7 @@ IGNORE 1 LINES
 
 -- 5. 订单  ← olist_orders_dataset.csv
 --    时间列有空值，同样用 NULLIF 转成 NULL。
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_orders_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_orders_dataset.csv'
 INTO TABLE orders
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -82,7 +78,7 @@ SET order_id                      = @order_id,
     order_estimated_delivery_date = NULLIF(@order_estimated_delivery_date, '');
 
 -- 6. 订单明细  ← olist_order_items_dataset.csv
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_order_items_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_order_items_dataset.csv'
 INTO TABLE order_items
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -97,7 +93,7 @@ SET order_id            = @order_id,
     freight_value       = @freight_value;
 
 -- 7. 订单支付  ← olist_order_payments_dataset.csv
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_order_payments_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_order_payments_dataset.csv'
 INTO TABLE order_payments
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -106,7 +102,7 @@ IGNORE 1 LINES
 
 -- 8. 订单评价  ← olist_order_reviews_dataset.csv
 --    评论标题、内容、时间都可能为空，用 NULLIF 转成 NULL。
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_order_reviews_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_order_reviews_dataset.csv'
 INTO TABLE order_reviews
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'
@@ -122,7 +118,7 @@ SET review_id               = @review_id,
     review_answer_timestamp = NULLIF(@review_answer_timestamp, '');
 
 -- 9. 地理位置  ← olist_geolocation_dataset.csv
-LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/Olist/olist_geolocation_dataset.csv'
+LOAD DATA LOCAL INFILE 'C:/Users/iiLI/Desktop/1/data_raw/olist_geolocation_dataset.csv'
 INTO TABLE geolocation
 FIELDS TERMINATED BY ',' OPTIONALLY ENCLOSED BY '"'
 LINES TERMINATED BY '\n'

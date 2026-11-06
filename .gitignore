@@ -35,7 +35,7 @@ dist/
 .env.*
 !.env.example
 
-# Large local raw data (uncomment once data is added)
-# data/raw/
-# *.csv
-# *.parquet
+# Large local data (never commit)
+data_raw/
+data_processed/
+*.parquet

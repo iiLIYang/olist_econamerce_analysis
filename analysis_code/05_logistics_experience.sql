@@ -14,7 +14,9 @@ select
     round(100* sum(delivery_status = 'late')/ count(*), 2) as late_rate_pct, # 整体迟到率
     round(avg(review_score), 2) as  avg_review_score                         # 整体平均评分
 from olist.v_order_base
-where order_status = 'delivered' and order_delivered_customer_date is not null
+where order_status = 'delivered'
+      and order_estimated_delivery_date is not null
+      and order_delivered_customer_date is not null
       and order_purchase_timestamp >= '2017-01-01'
       and order_purchase_timestamp <  '2018-09-01';
 
@@ -47,6 +49,7 @@ group by delay_bucket
 order by delay_bucket;
 
 -- 拆分物流: 看物流慢是因为'卖家发货慢'还是'承运商送得慢'
+-- 只保留时间轴合理的订单：批准 <= 承运 <= 签收，避免负天数拉低均值
 
 select
     case
@@ -60,6 +63,8 @@ select
     round(avg(datediff(order_delivered_customer_date, order_delivered_carrier_date)), 1) as carrier_leg_days
 from v_order_base
 where order_status = 'delivered'
+    and order_approved_at <= order_delivered_carrier_date
+    and order_delivered_carrier_date <= order_delivered_customer_date
     and order_purchase_timestamp >= '2017-01-01'
     and order_purchase_timestamp <  '2018-09-01'
 group by status_group;
